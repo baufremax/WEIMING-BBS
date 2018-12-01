@@ -1,0 +1,65 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"
+    import="java.sql.*, java.util.*"%>
+<% Class.forName("com.mysql.jdbc.Driver"); %>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
+<%
+Connection con = null;// build a database connect
+PreparedStatement pre = null;
+ResultSet result = null;
+String URL = "jdbc:mysql://localhost/bbs";
+String USERNAME = "root";
+String PASSWORD = "wzy960806";
+String postID = request.getParameter("postID");
+try {
+	con = DriverManager.getConnection(URL, USERNAME, PASSWORD);// 获取连接
+	String sql = "select * from posts a natural join bbsUser, replys b" 
+	+ " where a.postID = b.postID and a.postID = ?";
+	pre = con.prepareStatement(sql);
+	pre.setString(1, postID);
+	result = pre.executeQuery();
+}
+catch (Exception e)
+{
+    e.printStackTrace();
+}
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>POST</title>
+</head>
+<body>
+<table>
+	<tr>
+		<td><a href="welcome.jsp">HomePage</a></td>
+		<td><a href="user_center.jsp">UserCenter</a></td>
+		<td><a href="section.jsp">Sections</a></td>
+		<td><a href="section_action.jsp"><%= request.getParameter("sectionName") %></a>
+	</tr>
+</table>
+<% boolean firstResult = true;
+   while (result.next()) { %>
+	<% if (firstResult) { %>
+		<h2><%= result.getString("title") %></h2>
+		<table>
+		<tr>
+			<td>Author: <%= result.getString("nickname") %></td>
+			<td>PostTime: <%= result.getString("postTime") %></td>
+		</tr>
+		</table>
+		<p><%= result.getString("content") %></p>
+		<table>
+	<% firstResult = false;
+	} %>
+			<tr>
+				<td><a><%= result.getString("replyContent") %></a></td>
+			</tr>
+<% } %>
+</table>
+</body>
+</html>

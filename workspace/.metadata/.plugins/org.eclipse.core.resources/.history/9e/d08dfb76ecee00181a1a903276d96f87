@@ -1,0 +1,15 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" import="wzy.*"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h3>Hello World!</h3>
+the time on this server is <%= new java.util.Date() %>
+
+<%= testClass.makeItLower("OOOOP") %>
+</body>
+</html>

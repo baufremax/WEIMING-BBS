@@ -1,0 +1,8 @@
+package wzy;
+
+public class testClass {
+	
+	public static String makeItLower(String data) {
+		return data.toLoweCase();
+	}
+}

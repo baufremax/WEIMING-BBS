@@ -1,0 +1,51 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"
+    import="java.sql.*, java.util.*"%>
+<% Class.forName("com.mysql.jdbc.Driver"); %>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
+<%
+Connection con = null;// build a database connect
+PreparedStatement pre = null;
+ResultSet result = null;
+String URL = "jdbc:mysql://localhost/bbs";
+String USERNAME = "root";
+String PASSWORD = "wzy960806";
+String userName = session.getAttribute("userName").to_String();
+try {
+	con = DriverManager.getConnection(URL, USERNAME, PASSWORD);// 获取连接
+	String sql = "select * from bbsUser natural join posts where nickname = ?";
+	pre = con.prepareStatement(sql);
+	pre.setString(1, userName);
+	result = pre.executeQuery();
+}
+catch (Exception e)
+{
+    e.printStackTrace();
+}
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>USER</title>
+</head>
+<body>
+<table>
+<tr>
+	<td><a href="welcome.jsp">HomePage</a></td>
+</tr>
+</table>
+<h2>${ username }</h2>
+<table>
+	<% while (result.next()) { %>
+	<tr>
+		<td><a><%= result.getString("postID") %></a>
+		<td><a><%= result.getString("title") %></a></td>
+	</tr>
+	<% } %>
+</table>
+</body>
+</html>

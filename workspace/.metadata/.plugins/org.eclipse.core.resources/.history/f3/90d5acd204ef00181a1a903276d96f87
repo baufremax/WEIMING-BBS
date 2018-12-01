@@ -1,0 +1,48 @@
+
+<%@ page import="java.sql.*" %>
+<% Class.forName("com.mysql.jdbc.Driver"); %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<%! 
+	public class Advisor {
+		String URL = "jdbc:mysql://localhost/university";
+		String USERNAME = "root";
+		String PASSWORD = "wzy960806";
+		
+		Connection connection = null;
+		PreparedStatement selectAdvisor = null;
+		ResultSet resultSet = null;
+		
+		public Advisor() {
+			try {
+				connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+				selectAdvisor = connection.prepareStatement(
+						"SELECT s_ID, i_ID from advisor"
+						+"WHERE s_ID = ? AND i_ID = ?");
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		public ResultSet getAdvisor(String s_Id, String i_ID) {
+			try {
+				resultSet = selectAdvisor.executeQuery();
+				
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return resultSet;
+		}
+	}
+	%>
+</body>
+</html>

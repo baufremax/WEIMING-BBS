@@ -1,0 +1,7 @@
+INDEX VERSION 1.131
+/Users/wzy/Desktop/JSP/workspace/.metadata/.plugins/org.eclipse.jst.jsp.core/jspsearch/3615127989.index
+/SelectFromDB/src
+/Users/wzy/Desktop/JSP/workspace/.metadata/.plugins/org.eclipse.jst.jsp.core/jspsearch/3082874910.index
+/test/src
+/Users/wzy/Desktop/JSP/workspace/.metadata/.plugins/org.eclipse.jst.jsp.core/jspsearch/3096512848.index
+/BBS_Proj/src

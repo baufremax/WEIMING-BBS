@@ -1,0 +1,21 @@
+
+<%@ page import="java.sql.*" %>
+<% Class.forName("com.mysql.jdbc.Driver"); %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>SelectFromDB</title>
+</head>
+<body>
+	<h3>SelectFromDB</h3>
+	<%! 
+	public class Actor {
+		String URL = "jdbc:mysql://localhost:8080/university"	
+	}
+	%>
+
+</body>
+</html>

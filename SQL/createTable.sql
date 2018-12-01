@@ -1,0 +1,58 @@
+USE bbs;
+-- DROP TABLE IF EXISTS bbsUser; 
+CREATE TABLE IF NOT EXISTS bbsUser (
+	userID INT(11) PRIMARY KEY AUTO_INCREMENT,
+	nickname VARCHAR(255) DEFAULT NULL,
+	userPassword VARCHAR(255) DEFAULT NULL,
+	gender VARCHAR(2) DEFAULT NULL,
+    birthdate DATE DEFAULT NULL,
+    registerDate DATETIME DEFAULT NULL,
+	userLevel INT(11) DEFAULT 0,
+	email NVARCHAR(255) DEFAULT NULL
+);
+
+-- DROP TABLE IF EXISTS section;
+CREATE TABLE IF NOT EXISTS section (
+	sectionID INT(11) PRIMARY KEY AUTO_INCREMENT,
+    sectionName VARCHAR(30),
+    moderatorID INT(11) DEFAULT NULL,
+    INDEX (sectionName),
+    FOREIGN KEY (moderatorID) REFERENCES bbsUSer(userID) ON DELETE CASCADE
+);
+
+-- DROP TABLE IF EXISTS posts;
+CREATE TABLE IF NOT EXISTS posts (
+	postID INT(11) PRIMARY KEY AUTO_INCREMENT,
+    sectionID INT(11),
+    userID INT(11),
+    title VARCHAR(255),
+    content TEXT,
+    postTime DATETIME DEFAULT NULL,
+    lastRepliedTime DATETIME DEFAULT NULL, 
+    clickNum INT(11) DEFAULT 0,
+    replyNum INT(11) DEFAULT 0,
+    FOREIGN KEY (userID) REFERENCES bbsUser(userID) ON DELETE CASCADE,
+    FOREIGN KEY (sectionID) REFERENCES section(sectionID) ON DELETE CASCADE
+);
+
+-- DROP TABLE IF EXISTS replys;
+CREATE TABLE IF NOT EXISTS replys (
+	replyID INT(11) PRIMARY KEY AUTO_INCREMENT,
+    postID INT(11),
+    userID INT(11),
+    replyContent TEXT,
+    floorNum INT(11) DEFAULT 0,
+    replyTime DATETIME DEFAULT NULL,
+    praiseNUm INT(11) DEFAULT 0,
+    FOREIGN KEY (postID) REFERENCES posts(postID) ON DELETE CASCADE,
+    FOREIGN KEY (userID) REFERENCES bbsUser(userID) ON DELETE CASCADE
+);
+
+-- DROP TABLE IF EXISTS suspectedUser;
+CREATE TABLE IF NOT EXISTS suspectedUser(
+	userID INT(11) PRIMARY KEY,
+    FOREIGN KEY (userID) REFERENCES bbsUser(userID) ON DELETE CASCADE
+);
+    
+    
+    

@@ -1,0 +1,36 @@
+
+<%@ page import="java.sql.*" %>
+<% Class.forName("com.mysql.jdbc.Driver"); %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>SelectFromDB</title>
+</head>
+<body>
+	<h3>SelectFromDB</h3>
+	<%! 
+	public class Advisor {
+		String URL = "jdbc:mysql://localhost:8080/university";
+		String USERNAME = "wzy";
+		String PASSWORD = "wzy960806";
+		
+		Connection connection = null;
+		PreparedStatement selectAdvisor = null;
+		ResultSet resultSet = null;
+		
+		public Advisor() {
+			try {
+				
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	%>
+
+</body>
+</html>

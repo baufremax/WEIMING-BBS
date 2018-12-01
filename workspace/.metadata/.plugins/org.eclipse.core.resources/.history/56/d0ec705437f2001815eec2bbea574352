@@ -1,0 +1,84 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"
+    import="java.sql.*, java.util.*"%>
+<% Class.forName("com.mysql.jdbc.Driver"); %>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
+<% 
+  String username = request.getParameter("username");
+  String password1 = request.getParameter("password1");
+  String password2 = request.getParameter("password2");
+  String gender = request.getParameter("gender");
+  String birthday = request.getParameter("birthday");
+  String email = request.getParameter("email");
+  if(username==null||"".equals(username.trim())||password1==null||"".equals(password1.trim())||password2==null||"".equals(password2.trim())||!password1.equals(password2)){
+	  //out.write("用户名或密码不能为空！");
+	  System.out.println("用户名或密码不能为空！");
+	  out.println("<script>alert('username and password cannot be null!!'); window.location='register.jsp' </script>");
+	  out.flush();
+	  out.close();
+	  // response.sendRedirect("register.jsp");
+	  // return;
+	  //request.getRequestDispatcher("login.jsp").forward(request, response);
+  }
+  boolean isValid = false;
+  Connection con = null;// build a database connect
+  PreparedStatement pre = null;
+  ResultSet result = null;
+  String URL = "jdbc:mysql://localhost/bbs";
+  String USERNAME = "root";
+  String PASSWORD = "wzy960806";
+  try
+  {
+      con = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+      String sql = "select * from bbsUser where nickname=?";
+      pre = con.prepareStatement(sql);
+      pre.setString(1, username);
+      result = pre.executeQuery();
+      if (!result.next()){
+    	  sql = "insert into bbsUser(nickname, userPassword, gender, birthday, email) values(?,?,?,?,?)";
+          pre = con.prepareStatement(sql);// 实例化预编译语句
+          pre.setString(1, username);
+          pre.setString(2, password1);
+          pre.setString(3, gender);
+          pre.setString(4, birthday);
+          pre.setString(5, email);
+          pre.executeUpdate();
+    	  isValid = true;
+      }
+  }
+  catch (Exception e)
+  {
+      e.printStackTrace();
+  }
+  finally
+  {
+      try
+      {
+          // 逐一将上面的几个对象关闭，因为不关闭的话会影响性能、并且占用资源
+          // 注意关闭的顺序，最后使用的最先关闭
+          if (result != null)
+              result.close();
+          if (pre != null)
+              pre.close();
+          if (con != null)
+              con.close();
+          //System.out.println("数据库连接已关闭！");
+      }
+      catch (Exception e)
+      {
+          e.printStackTrace();
+      }
+  }
+  if(isValid){
+	  System.out.println("注册成功，请登录！");
+	  response.sendRedirect("login.jsp");
+	  return;
+  }else{
+	  System.out.println("用户名已存在！");
+	  response.sendRedirect("register.jsp");
+	  return;
+  }
+ %>
