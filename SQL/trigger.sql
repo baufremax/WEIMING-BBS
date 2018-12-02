@@ -7,7 +7,7 @@ BEGIN
 	IF 	EXISTS(SELECT userID
 		FROM (SELECT userID, COUNT(*) as tmpcount FROM posts 
 				WHERE userID = NEW.userID AND 
-				TIME_TO_SEC(postTime) + 600 < TIME_TO_SEC(NEW.postTime)) posts_alias
+				UNIX_TIMESTAMP(postTime) + 600 < UNIX_TIMESTAMP(NEW.postTime)) posts_alias
 		WHERE tmpcount > 10)
 	THEN 
 	INSERT INTO suspectedUser(userID)

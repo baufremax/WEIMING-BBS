@@ -52,7 +52,7 @@ catch (Exception e)
 	<tr>
 		<td><a><%= postResult.getString("postID") %></a>
 		<td><a><%= postResult.getString("title") %></a></td>
-		<td><a href="post_display.jsp?postID=<%= postResult.getString("postID") %>&sectionName=<%= request.getParameter("sectionName") %>">details</a></td>
+		<td><a href="post_display.jsp?postID=<%= postResult.getString("postID") %>">details</a></td>
 	</tr>
 	<% } %>
 </table>

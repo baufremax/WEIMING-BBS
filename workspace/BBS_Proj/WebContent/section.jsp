@@ -35,7 +35,7 @@ catch (Exception e)
 	<table>
 	<tr>
 		<td><a href="welcome.jsp">HomePage</a></td>
-		<td><a href="user_center.jsp">UserCenter</a></td>
+		<td><a href="user_center.jsp?userName=<%= session.getAttribute("username")%>">UserCenter</a></td>
 	</tr>
 	</table>
 	<h2>Select the section you want to access.</h2>

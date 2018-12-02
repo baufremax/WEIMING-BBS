@@ -9,6 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <%
 Connection con = null;// build a database connect
 PreparedStatement pre = null;
+ResultSet replyResult = null;
 ResultSet result = null;
 String URL = "jdbc:mysql://localhost/bbs";
 String USERNAME = "root";
@@ -17,7 +18,11 @@ String postID = request.getParameter("postID");
 try {
 	con = DriverManager.getConnection(URL, USERNAME, PASSWORD);// 获取连接
 	String sql = "select * from posts a natural join bbsUser b, replys c natural join bbsUser d" 
-	+ " where a.postID = c.postID and a.postID = ?";
+	+ " where a.postID = c.postID and a.postID = ?" ;
+	pre = con.prepareStatement(sql);
+	pre.setString(1, postID);
+	replyResult = pre.executeQuery();
+	sql = "select * from posts natural join bbsUser where postID = ?";
 	pre = con.prepareStatement(sql);
 	pre.setString(1, postID);
 	result = pre.executeQuery();
@@ -37,14 +42,14 @@ catch (Exception e)
 <table>
 	<tr>
 		<td><a href="welcome.jsp">HomePage</a></td>
-		<td><a href="user_center.jsp">UserCenter</a></td>
+		<td><a href="user_center.jsp?userName=<%= session.getAttribute("username")%>">UserCenter</a></td>
 		<td><a href="section.jsp">Sections</a></td>
 	</tr>
 </table>
-<% boolean firstResult = true;
-   while (result.next()) { %>
-	<% if (firstResult) { %>
-		<h2><%= result.getString("title") %></h2>
+<% 
+   if (result.next()) {
+	   %>
+	   <h2><%= result.getString("title") %></h2>
 		<table>
 		<tr>
 			<td>Author: <a href="user_center.jsp?userName=<%= result.getString("nickname") %>"><%= result.getString("nickname") %></a></td>
@@ -54,25 +59,35 @@ catch (Exception e)
 		</tr>
 		</table>
 		<p><%= result.getString("content") %></p>
+		<p><a href="reply_new.jsp?postID=<%= request.getParameter("postID") %>">New Reply</a></p>
+		<%
+   }
+	boolean firstReply = true;
+   	while (replyResult.next()) {
+	if (firstReply) {
+	   %>
 		<h3>Replies: </h3>
-	<% firstResult = false;
-	} %>
+		<%
+		firstReply = false;
+	  }
+		%>
 	<div>
 	<table>
 		<tr>
-			<td>Floor #<%= result.getString("floorNum") %></td>
+			<td>Floor #<%= replyResult.getString("floorNum") %></td>
 		</tr>
 		<tr>
-			<td>ReplyTime: <%= result.getString("replyTime") %></td>
+			<td>ReplyTime: <%= replyResult.getString("replyTime") %></td>
 		</tr>
 		<tr>
-			<td>Replyer: <a href="user_center.jsp?userName=<%= result.getString("d.nickname") %>"><%= result.getString("d.nickname") %></a></td>
+			<td>Replier: <a href="user_center.jsp?userName=<%= replyResult.getString("d.nickname") %>"><%= replyResult.getString("d.nickname") %></a></td>
 		</tr>
 		<tr>
-			<td>Praise: <%= result.getString("praiseNum") %></td>
+			<td>Praise: <%= replyResult.getString("praiseNum") %></td>
+			<td>+1</td>
 		</tr>
 	</table>
-	<p><a><%= result.getString("replyContent") %></a></p>
+	<p><a><%= replyResult.getString("replyContent") %></a></p>
 	</div>
 <% } %>
 </body>
