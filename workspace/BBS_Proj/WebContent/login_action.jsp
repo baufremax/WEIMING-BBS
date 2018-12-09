@@ -3,11 +3,6 @@
     import="java.sql.*, java.util.*"%>
 <% Class.forName("com.mysql.jdbc.Driver"); %>
 
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
- 
   <% 
   String username = request.getParameter("username");
   String password = request.getParameter("password");
@@ -27,6 +22,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   String URL = "jdbc:mysql://localhost/bbs";
   String USERNAME = "root";
   String PASSWORD = "wzy960806";
+  String userID = null;
   try
   {
 	  System.out.println(password);
@@ -39,6 +35,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       pre.setString(2, password);// 设置参数，前面的1表示参数的索引，而不是表中列名的索引
       result = pre.executeQuery();// 执行查询，注意括号中不需要再加参数
       if (result.next()){
+    	  userID = result.getString("userID");
     	  isValid = true;
       }
   }
@@ -68,6 +65,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   if(isValid){
 	  System.out.println("Login Succeeded！");
 	  session.setAttribute("username", username);
+	  session.setAttribute("userID", userID);
 	  response.sendRedirect("welcome.jsp");
 	  return;
   }else{

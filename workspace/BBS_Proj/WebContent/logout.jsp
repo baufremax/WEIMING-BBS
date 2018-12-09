@@ -2,15 +2,10 @@
     pageEncoding="UTF-8"
     import="java.util.*"%>
 
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<base href="<%=basePath%>">
 <title>LogoutPage</title>
 </head>
 <body>

@@ -2,10 +2,7 @@
     pageEncoding="UTF-8"
     import="java.sql.*, java.util.*"%>
 <% Class.forName("com.mysql.jdbc.Driver"); %>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
+
 <%
 Connection con = null;// build a database connect
 PreparedStatement userPre = null, sectionPre = null, pre = null;

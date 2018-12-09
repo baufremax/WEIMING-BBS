@@ -13,12 +13,12 @@ ORDER BY a.replyNum desc, a.postID;
 
 -- user posted in a specific section.
 CREATE VIEW userPostBySection AS
-SELECT DISTINCT sectionName, a.* FROM bbsUser a NATURAL JOIN section NATURAL JOIN posts
-ORDER BY sectionName desc, (SELECT COUNT(*) FROM posts WHERE userID = a.userID) desc;
+SELECT DISTINCT b.*, a.* FROM bbsUser a NATURAL JOIN section b NATURAL JOIN posts
+ORDER BY sectionName desc, (SELECT COUNT(*) FROM posts NATURAL JOIN section WHERE userID = a.userID AND sectionID = b.sectionID) desc;
 
 CREATE VIEW userReplyBySection AS
-SELECT DISTINCT sectionName, a.* FROM bbsUser a NATURAL JOIN section NATURAL JOIN posts
-ORDER BY sectionName desc, (SELECT COUNT(*) FROM replys WHERE userID = a.userID) desc;
+SELECT DISTINCT b.*, a.* FROM bbsUser a NATURAL JOIN section b NATURAL JOIN posts
+ORDER BY sectionName desc, (SELECT COUNT(*) FROM replys, posts NATURAL JOIN section WHERE replys.userID = a.userID AND replys.postID = posts.postID AND sectionID = b.sectionID) desc;
 
 --  hottest posts in section.
 CREATE VIEW hotPostBySection AS

@@ -2,10 +2,7 @@
     pageEncoding="UTF-8"
     import="java.sql.*, java.util.*"%>
 <% Class.forName("com.mysql.jdbc.Driver"); %>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
+
 <% 
   String username = request.getParameter("username");
   String password1 = request.getParameter("password1");
@@ -39,14 +36,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       
       if (!result.next()){
     	  sql = "insert into bbsUser(nickname, userPassword, gender, birthdate, email) values(?,?,?,?,?)";
-          pre = con.prepareStatement(sql);
-          pre.setString(1, username);
-          pre.setString(2, password1);
-          pre.setString(3, gender);
-          pre.setString(4, birthday);
-          pre.setString(5, email);
-          pre.executeUpdate();
+    	  PreparedStatement insPre = con.prepareStatement(sql);
+          insPre.setString(1, username);
+          insPre.setString(2, password1);
+          insPre.setString(3, gender);
+          insPre.setString(4, birthday);
+          insPre.setString(5, email);
+          insPre.executeUpdate();
     	  isValid = true;
+    	  if (insPre != null) 
+        	  insPre.close();
       }
   }
   catch (Exception e)
@@ -80,7 +79,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  out.close();
 	  return;
   }else{
-	  System.out.println("user already exists！");
+	  System.out.println("Register Failed！Please type in correct username or birthday format!!");
 	  // response.sendRedirect("register.jsp");
 	  out.println("<script>alert('user already exists!!'); window.location='register.jsp' </script>");
 	  out.flush();

@@ -2,10 +2,7 @@
     pageEncoding="UTF-8"
     import="java.sql.*, java.util.*"%>
 <% Class.forName("com.mysql.jdbc.Driver"); %>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
+
 <%
 Connection con = null;// build a database connect
 PreparedStatement pre = null;
@@ -82,13 +79,31 @@ catch (Exception e)
 		<tr>
 			<td>Replier: <a href="user_center.jsp?userName=<%= replyResult.getString("d.nickname") %>"><%= replyResult.getString("d.nickname") %></a></td>
 		</tr>
-		<tr>
+		<%-- <tr>
 			<td>Praise: <%= replyResult.getString("praiseNum") %></td>
 			<td>+1</td>
-		</tr>
+		</tr> --%>
 	</table>
 	<p><a><%= replyResult.getString("replyContent") %></a></p>
 	</div>
-<% } %>
+<% } 
+ try
+      {
+          // 逐一将上面的几个对象关闭，因为不关闭的话会影响性能、并且占用资源
+          // 注意关闭的顺序，最后使用的最先关闭
+          if (result != null)
+              result.close();
+          if (replyResult != null)
+        	  replyResult.close();
+          if (pre != null)
+              pre.close();
+          if (con != null)
+              con.close();
+          //System.out.println("database connection closed！");
+      }
+      catch (Exception e)
+      {
+          e.printStackTrace();
+      }%>
 </body>
 </html>

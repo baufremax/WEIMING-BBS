@@ -3,10 +3,6 @@
     import="java.sql.*, java.util.*"%>
 <% Class.forName("com.mysql.jdbc.Driver"); %>
 
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -53,6 +49,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<td>Welcome,</td>
 							<td>${ username }</td>
 						</tr>
+						<% 
+						String userID = (String)session.getAttribute("userID");
+						if ("1".equals(userID)) { %>
+						<tr>
+							<td><a href="manage_user.jsp">ManageUser</a></td>
+							<td><a href="manage_post.jsp">ManagePost</a></td>
+						</tr>
+						<% } %>
 						<tr>
 							<td colspan="2"><input type="submit" value="Logout" /></td>
 						</tr>

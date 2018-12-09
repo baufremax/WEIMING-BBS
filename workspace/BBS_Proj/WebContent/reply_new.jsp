@@ -20,6 +20,7 @@
 			<tr>
 				<td colspan="2">Your New Reply</td>
 			</tr>
+			<tr>
 				<td>Content：</td>
 			</tr>
 			<tr>
