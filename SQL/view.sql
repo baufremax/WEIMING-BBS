@@ -47,6 +47,4 @@ WHERE (SELECT COUNT(DISTINCT r_1.replyID) FROM bbsUser u_1 NATURAL JOIN replys r
 	  WHERE p_2.postID = r_2.postID AND b.sectionID = p_2.sectionID)
 ORDER BY sectionName desc, userID;
 
--- user who posts more in section A than in section B. Implemented in JSP code.
-
 
