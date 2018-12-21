@@ -45,6 +45,18 @@ catch (Exception e)
 </table>
 <% 
    if (result.next()) {
+	   /*  update clickNum if clicked by other user */
+	   String currentUserID = (String)session.getAttribute("userID");
+	   String postUserID = result.getString("userID");
+	   if (! postUserID.equals(currentUserID)) {
+		   PreparedStatement updatePre = null;
+		   String updateSql = "update posts set clickNum = clickNum + 1 where userID = ?";
+		   updatePre =  con.prepareStatement(updateSql);
+		   updatePre.setString(1, postUserID);
+		   updatePre.executeUpdate();
+		   if (updatePre != null)
+	        	  updatePre.close();
+	   }
 	   %>
 	   <h2><%= result.getString("title") %></h2>
 		<table>
@@ -53,6 +65,9 @@ catch (Exception e)
 		</tr>
 		<tr>
 			<td>PostTime: <%= result.getString("postTime") %></td>
+		</tr>
+		<tr>
+			<td>ClickNum: <%= result.getString("clickNum") %></td>
 		</tr>
 		</table>
 		<p><%= result.getString("content") %></p>

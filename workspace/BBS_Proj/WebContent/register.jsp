@@ -35,7 +35,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td>birthday: </td>
+				<td>birthday(yyyy/mm/dd): </td>
 				<td><input type="date" name="birthday" /></td>
 			</tr>
 			<tr>
